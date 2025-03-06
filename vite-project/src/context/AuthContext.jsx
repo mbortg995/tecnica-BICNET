@@ -1,16 +1,15 @@
-import { createContext, useContext, useState, useTransition } from "react"
+import { createContext, useContext, useState } from "react"
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [error, setError] = useState("");
 
-  const usertoken = localStorage.getItem("usertoken");
-  const isAutenticated = usertoken !== null;
+  const userToken = localStorage.getItem("userToken");
+  const isAutenticated = userToken !== null;
 
   const logout = () => {
-    localStorage.removeItem('usertoken');
-    localStorage.removeItem('user');
+    localStorage.removeItem('userToken');
   }
 
   const login = async (login, pass) => {
@@ -22,16 +21,18 @@ export const AuthProvider = ({ children }) => {
         }
       });
 
+      console.log(response);
+
       if (!response.ok) {
         const error = await response.json();
         setError(error.error);
         return false;
       }
 
-      const { usertoken } = await response.json();
-      console.log(usertoken);
+      const { userToken } = await response.json();
+      console.log(userToken);
 
-      localStorage.setItem('usertoken', usertoken);
+      localStorage.setItem('userToken', userToken);
 
       return true;
 
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      usertoken,
+      userToken,
       isAutenticated,
       login,
       logout,
