@@ -12,21 +12,10 @@ export default function Dashboard() {
         const response = await fetch('http://localhost:51235/api/siglasauth/articulosext', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${userToken}`,
+            Authorization: `Bearer ${userToken}`,
             'Accept': 'text/plain',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            filterExpression: null,
-            sortingFields: [{
-              field: '',
-              sortDir: 'Asc'
-            }],
-            pagingArgs: {
-              page: 1,
-              pageSize: 1
-            }
-          }),
+          }
         });
 
         if (!response.ok) {
@@ -42,6 +31,7 @@ export default function Dashboard() {
         const data = contentType && contentType.includes('application/json')
           ? await response.json()
           : await response.text();
+        console.log(data);
         return data;
       } catch (error) {
         console.error('Error en la petición:', error.message);
