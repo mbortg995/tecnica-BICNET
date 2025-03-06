@@ -1,27 +1,25 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, useTransition } from "react"
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [error, setError] = useState("");
 
-  const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
-  const isAutenticated = token !== null;
+  const usertoken = localStorage.getItem("usertoken");
+  const isAutenticated = usertoken !== null;
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('usertoken');
     localStorage.removeItem('user');
   }
 
-  const login = async (data) => {
+  const login = async (login, pass) => {
     try {
-      const response = await fetch('http://localhost:51235/api/auth/login', {
-        method: 'POST',
+      const response = await fetch(`https://example.com/api/auth?login=${login}&pass=${pass}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+          'Content-Type': 'application/json'
+        }
       });
 
       if (!response.ok) {
@@ -30,16 +28,10 @@ export const AuthProvider = ({ children }) => {
         return false;
       }
 
-      const { user, token } = await response.json();
+      const { usertoken } = await response.json();
+      console.log(usertoken);
 
-      localStorage.setItem('user', JSON.stringify({
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        building_id: user.building_id
-      }));
-
-      localStorage.setItem('token', token);
+      localStorage.setItem('usertoken', usertoken);
 
       return true;
 
@@ -51,8 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      token,
-      user,
+      usertoken,
       isAutenticated,
       login,
       logout,
