@@ -2,6 +2,7 @@ import './index.css'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import LoginPage from './pages/auth/LoginPage'
 import { AuthProvider } from './context/AuthContext'
+import Dashboard from './pages/dashboard/Dashboard'
 
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<h1>LOGUEADO</h1>}></Route>
+          <Route path="/" element={<Dashboard />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
         </Routes>
       </AuthProvider>

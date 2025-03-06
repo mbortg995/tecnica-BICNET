@@ -21,8 +21,6 @@ export const AuthProvider = ({ children }) => {
         }
       });
 
-      console.log(response);
-
       if (!response.ok) {
         const error = await response.json();
         setError(error.error);
@@ -30,7 +28,6 @@ export const AuthProvider = ({ children }) => {
       }
 
       const { userToken } = await response.json();
-      console.log(userToken);
 
       localStorage.setItem('userToken', userToken);
 
