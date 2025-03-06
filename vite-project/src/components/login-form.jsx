@@ -30,12 +30,6 @@ export function LoginForm({ className, ...props }) {
               <Button type="submit" className="w-full">
                 Login
               </Button>
-              <div className="text-center text-sm">
-                No tienes cuenta?{" "}
-                <a href="#" className="underline underline-offset-4">
-                  Regístrate
-                </a>
-              </div>
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
